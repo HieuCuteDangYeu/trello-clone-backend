@@ -160,44 +160,44 @@ npm start
 
 ### 🔐 Auth Module
 
-| Method | Endpoint                    | Description                                  |
-| ------ | --------------------------- | -------------------------------------------- |
-| `POST` | `/api/auth/register`        | Create account (triggers email verification) |
-| `POST` | `/api/auth/login`           | Login (returns Access & Refresh Token)       |
-| `POST` | `/api/auth/google`          | Login via Google ID Token                    |
-| `POST` | `/api/auth/refresh-token`   | Get new Access Token                         |
-| `GET`  | `/api/auth/verify-email`    | Verify account                               |
-| `POST` | `/api/auth/forgot-password` | Request reset link                           |
-| `POST` | `/api/auth/reset-password`  | Set new password                             |
+| Method | Endpoint                | Description                                  |
+| ------ | ----------------------- | -------------------------------------------- |
+| `POST` | `/auth/register`        | Create account (triggers email verification) |
+| `POST` | `/auth/login`           | Login (returns Access & Refresh Token)       |
+| `POST` | `/auth/google`          | Login via Google ID Token                    |
+| `POST` | `/auth/refresh-token`   | Get new Access Token                         |
+| `GET`  | `/auth/verify-email`    | Verify account                               |
+| `POST` | `/auth/forgot-password` | Request reset link                           |
+| `POST` | `/auth/reset-password`  | Set new password                             |
 
 ### 📊 Board Module
 
-| Method   | Endpoint                | Description                       |
-| -------- | ----------------------- | --------------------------------- |
-| `GET`    | `/api/boards`           | Get my boards                     |
-| `POST`   | `/api/boards`           | Create board                      |
-| `GET`    | `/api/boards/:id`       | Get board details                 |
-| `PATCH`  | `/api/boards/:id`       | Update board                      |
-| `DELETE` | `/api/boards/:id`       | Delete board                      |
-| `GET`    | `/api/boards/admin/all` | **(Admin)** Get all system boards |
+| Method   | Endpoint            | Description                       |
+| -------- | ------------------- | --------------------------------- |
+| `GET`    | `/boards`           | Get my boards                     |
+| `POST`   | `/boards`           | Create board                      |
+| `GET`    | `/boards/:id`       | Get board details                 |
+| `PATCH`  | `/boards/:id`       | Update board                      |
+| `DELETE` | `/boards/:id`       | Delete board                      |
+| `GET`    | `/boards/admin/all` | **(Admin)** Get all system boards |
 
 ### 📝 List Module
 
-| Method   | Endpoint                    | Description              |
-| -------- | --------------------------- | ------------------------ |
-| `GET`    | `/api/lists/board/:boardId` | Get columns for a board  |
-| `POST`   | `/api/lists`                | Create column            |
-| `PATCH`  | `/api/lists/:id`            | Rename or Move (Reorder) |
-| `DELETE` | `/api/lists/:id`            | Delete column            |
+| Method   | Endpoint                | Description              |
+| -------- | ----------------------- | ------------------------ |
+| `GET`    | `/lists/board/:boardId` | Get columns for a board  |
+| `POST`   | `/lists`                | Create column            |
+| `PATCH`  | `/lists/:id`            | Rename or Move (Reorder) |
+| `DELETE` | `/lists/:id`            | Delete column            |
 
 ### 🎯 Card Module
 
-| Method   | Endpoint                  | Description                          |
-| -------- | ------------------------- | ------------------------------------ |
-| `GET`    | `/api/cards/list/:listId` | Get tasks for a column               |
-| `POST`   | `/api/cards`              | Create task                          |
-| `PATCH`  | `/api/cards/:id`          | Update details or Move (Drag & Drop) |
-| `DELETE` | `/api/cards/:id`          | Delete task                          |
+| Method   | Endpoint              | Description                          |
+| -------- | --------------------- | ------------------------------------ |
+| `GET`    | `/cards/list/:listId` | Get tasks for a column               |
+| `POST`   | `/cards`              | Create task                          |
+| `PATCH`  | `/cards/:id`          | Update details or Move (Drag & Drop) |
+| `DELETE` | `/cards/:id`          | Delete task                          |
 
 ---
 
