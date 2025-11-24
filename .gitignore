@@ -1,0 +1,43 @@
+# Dependency directories
+node_modules/
+pnpm-lock.yaml
+yarn.lock
+# (Keep package-lock.json if you use npm, otherwise ignore it if you use yarn/pnpm exclusively)
+
+# Environment variables (CRITICAL SECURITY)
+.env
+.env.test
+.env.production
+.env.local
+
+# Build output
+dist/
+build/
+out/
+
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# IDE / Editor settings
+.idea/
+.vscode/
+*.swp
+*.swo
+*.tgz
+
+# OS metadata
+.DS_Store
+Thumbs.db
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Temporary files
+tmp/
+temp/
