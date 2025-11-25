@@ -5,10 +5,18 @@ import { cardRouter } from '@modules/cards/infra/http/routes/cardRoutes';
 import { listRouter } from '@modules/lists/infra/http/routes/listRoutes';
 import { userRouter } from '@modules/users/infra/http/routes/userRoutes';
 import { connectToDatabase } from '@shared/infra/database/mongoose';
+import cors from 'cors';
 import express from 'express';
 
 const startServer = async () => {
   const app = express();
+
+  app.use(
+    cors({
+      origin: ['http://localhost:5173'],
+      credentials: true,
+    }),
+  );
 
   app.use(express.json());
 

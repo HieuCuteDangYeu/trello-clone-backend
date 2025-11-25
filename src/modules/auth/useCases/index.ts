@@ -4,6 +4,8 @@ import { GoogleAuthService } from '@modules/auth/services/googleAuthService';
 import { MailService } from '@modules/auth/services/mailService';
 import { ForgotPasswordController } from '@modules/auth/useCases/forgotPassword/ForgotPasswordController';
 import { ForgotPasswordUseCase } from '@modules/auth/useCases/forgotPassword/ForgotPasswordUseCase';
+import { GetMeController } from '@modules/auth/useCases/getMe/GetMeController';
+import { GetMeUseCase } from '@modules/auth/useCases/getMe/GetMeUseCase';
 import { LoginController } from '@modules/auth/useCases/login/LoginController';
 import { LoginUseCase } from '@modules/auth/useCases/login/LoginUseCase';
 import { LoginWithGoogleController } from '@modules/auth/useCases/loginWithGoogle/LoginWithGoogleController';
@@ -70,8 +72,12 @@ const resetPasswordController = new ResetPasswordController(
   resetPasswordUseCase,
 );
 
+const getMeUseCase = new GetMeUseCase(mongoUserRepo);
+const getMeController = new GetMeController(getMeUseCase);
+
 export {
   forgotPasswordController,
+  getMeController,
   loginController,
   loginWithGoogleController,
   mongoRoleRepo,

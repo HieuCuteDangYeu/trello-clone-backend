@@ -1,5 +1,7 @@
+import { ensureAuthenticated } from '@modules/auth/infra/http/middleware/ensureAuthenticated';
 import {
   forgotPasswordController,
+  getMeController,
   loginController,
   loginWithGoogleController,
   refreshTokenController,
@@ -29,6 +31,9 @@ authRouter.post('/forgot-password', (req, res) =>
 );
 authRouter.post('/reset-password', (req, res) =>
   resetPasswordController.execute(req, res),
+);
+authRouter.get('/me', ensureAuthenticated, (req, res) =>
+  getMeController.execute(req, res),
 );
 
 export { authRouter };
