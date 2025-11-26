@@ -20,7 +20,7 @@ export class MailService {
     email: string,
     token: string,
   ): Promise<void> {
-    const link = `http://localhost:3000/auth/verify-email?token=${token}`;
+    const link = `${config.frontendURL}/verify-email?token=${token}`;
 
     const htmlContent = `
       <div style="font-family: Arial, sans-serif; padding: 20px;">
@@ -56,7 +56,7 @@ export class MailService {
     email: string,
     token: string,
   ): Promise<void> {
-    const link = `http://localhost:3000/reset-password?token=${token}`;
+    const link = `${config.frontendURL}/reset-password?token=${token}`;
 
     try {
       await this.transporter.sendMail({

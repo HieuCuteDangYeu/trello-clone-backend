@@ -18,4 +18,8 @@ export const config = {
     from: process.env.SMTP_FROM || '"Trello Clone" <no-reply@trelloclone.com>',
   },
   googleClientId: process.env.GOOGLE_CLIENT_ID || '',
+  frontendURL: process.env.FRONTEND_URL || 'http://localhost:5173',
+  allowedOrigins: process.env.ALLOWED_ORIGINS
+    ? process.env.ALLOWED_ORIGINS.split(',')
+    : ['http://localhost:5173'],
 };
