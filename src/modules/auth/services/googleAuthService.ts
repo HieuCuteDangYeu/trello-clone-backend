@@ -11,14 +11,14 @@ export class GoogleAuthService {
   private client: OAuth2Client;
 
   constructor() {
-    this.client = new OAuth2Client(config.googleClientId);
+    this.client = new OAuth2Client(config.google.clientId);
   }
 
   public async verifyIdToken(token: string): Promise<GoogleUser> {
     try {
       const ticket = await this.client.verifyIdToken({
         idToken: token,
-        audience: config.googleClientId,
+        audience: config.google.clientId,
       });
 
       const payload = ticket.getPayload();

@@ -1,19 +1,56 @@
-import nodemailer, { Transporter } from 'nodemailer';
+import { google } from 'googleapis';
 import { config } from '../../../config';
 
 export class MailService {
-  private transporter: Transporter;
+  private oauth2Client;
 
   constructor() {
-    this.transporter = nodemailer.createTransport({
-      host: config.smtp.host,
-      port: config.smtp.port,
-      secure: config.smtp.port === 465,
-      auth: {
-        user: config.smtp.user,
-        pass: config.smtp.pass,
-      },
+    this.oauth2Client = new google.auth.OAuth2(
+      config.google.clientId,
+      config.google.clientSecret,
+      'https://developers.google.com/oauthplayground',
+    );
+
+    this.oauth2Client.setCredentials({
+      refresh_token: config.google.refreshToken,
     });
+  }
+
+  private async sendMail(to: string, subject: string, html: string) {
+    try {
+      const accessToken = await this.oauth2Client.getAccessToken();
+      if (!accessToken.token)
+        throw new Error('Failed to generate access token');
+
+      const gmail = google.gmail({ version: 'v1', auth: this.oauth2Client });
+
+      const messageParts = [
+        `From: ${config.google.user}`,
+        `To: ${to}`,
+        'Content-Type: text/html; charset=utf-8',
+        'MIME-Version: 1.0',
+        `Subject: ${subject}`,
+        '',
+        html,
+      ];
+
+      const message = messageParts.join('\n');
+
+      const encodedMessage = Buffer.from(message)
+        .toString('base64')
+        .replace(/\+/g, '-')
+        .replace(/\//g, '_')
+        .replace(/=+$/, '');
+
+      await gmail.users.messages.send({
+        userId: 'me',
+        requestBody: {
+          raw: encodedMessage,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   public async sendVerificationEmail(
@@ -21,35 +58,16 @@ export class MailService {
     token: string,
   ): Promise<void> {
     const link = `${config.frontendURL}/verify-email?token=${token}`;
-
-    const htmlContent = `
-      <div style="font-family: Arial, sans-serif; padding: 20px;">
-        <h2>Welcome to Trello Clone!</h2>
-        <p>Please click the button below to verify your email address:</p>
-        <a href="${link}" style="
-          background-color: #0079bf; 
-          color: white; 
-          padding: 10px 20px; 
-          text-decoration: none; 
-          border-radius: 5px;
-          display: inline-block;
-          margin-top: 10px;">
+    const html = `
+      <div style="font-family: sans-serif; padding: 20px;">
+        <h2>Welcome!</h2>
+        <p>Please click the link below to verify your email:</p>
+        <a href="${link}" style="background: #007bff; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">
           Verify Email
         </a>
-        <p style="margin-top: 20px; color: #888;">Or copy this link: <br>${link}</p>
       </div>
     `;
-
-    try {
-      await this.transporter.sendMail({
-        from: config.smtp.from,
-        to: email,
-        subject: 'Verify your email address',
-        html: htmlContent,
-      });
-    } catch (error) {
-      console.error('Error sending email:', error);
-    }
+    await this.sendMail(email, 'Verify your email', html);
   }
 
   public async sendPasswordResetEmail(
@@ -57,29 +75,13 @@ export class MailService {
     token: string,
   ): Promise<void> {
     const link = `${config.frontendURL}/reset-password?token=${token}`;
-
-    try {
-      await this.transporter.sendMail({
-        from: config.smtp.from,
-        to: email,
-        subject: 'Reset your password',
-        html: `
-        <p>You requested a password reset</p>
-        <a href="${link}" style="
-          background-color: #0079bf; 
-          color: white; 
-          padding: 10px 20px; 
-          text-decoration: none; 
-          border-radius: 5px;
-          display: inline-block;
-          margin-top: 10px;">
-          Click here to reset your password
-        </a>
-        <p>This link expires in 1 hour.</p>
-      `,
-      });
-    } catch (error) {
-      console.error('Error sending password reset email:', error);
-    }
+    const html = `
+      <div style="font-family: sans-serif; padding: 20px;">
+        <h2>Password Reset</h2>
+        <p>Click the link below to reset your password:</p>
+        <a href="${link}">Reset Password</a>
+      </div>
+    `;
+    await this.sendMail(email, 'Reset your password', html);
   }
 }
