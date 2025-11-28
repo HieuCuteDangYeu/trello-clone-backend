@@ -16,7 +16,10 @@ export class GetMeController extends BaseController {
       const userId = req.user!.userId;
       const user = await this.useCase.execute(userId);
 
-      return this.ok(res, UserMap.toPersistence(user));
+      return this.ok(res, {
+        ...UserMap.toPersistence(user),
+        role: req.user!.role,
+      });
     } catch (err: unknown) {
       if (err instanceof Error && err.message === 'User not found') {
         return this.notFound(res, err.message);
