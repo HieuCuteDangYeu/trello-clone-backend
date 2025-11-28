@@ -16,7 +16,10 @@ const createUserUseCase = new CreateUserUseCase(mongoUserRepo, mongoRoleRepo);
 const createUserController = new CreateUserController(createUserUseCase);
 
 const getAllUsersUseCase = new GetAllUsersUseCase(mongoUserRepo);
-const getAllUsersController = new GetAllUsersController(getAllUsersUseCase);
+const getAllUsersController = new GetAllUsersController(
+  getAllUsersUseCase,
+  mongoRoleRepo,
+);
 
 const deleteUserUseCase = new DeleteUserUseCase(mongoUserRepo);
 const deleteUserController = new DeleteUserController(deleteUserUseCase);

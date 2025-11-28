@@ -22,4 +22,9 @@ export class MongoRoleRepo implements IRoleRepo {
     if (!roleDoc) return null;
     return Role.create({ name: roleDoc.name }, roleDoc._id);
   }
+
+  async findAll(): Promise<Role[]> {
+    const docs = await RoleModel.find({});
+    return docs.map((d) => Role.create({ name: d.name }, d._id));
+  }
 }

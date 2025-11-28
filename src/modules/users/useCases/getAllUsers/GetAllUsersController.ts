@@ -1,3 +1,4 @@
+import { IRoleRepo } from '@modules/auth/repos/roleRepo';
 import { Request, Response } from 'express';
 import { BaseController } from '../../../../shared/infra/http/BaseController';
 import { UserMap } from '../../mappers/userMap';
@@ -6,10 +7,12 @@ import { GetAllUsersUseCase } from './GetAllUsersUseCase';
 
 export class GetAllUsersController extends BaseController {
   private useCase: GetAllUsersUseCase;
+  private roleRepo: IRoleRepo;
 
-  constructor(useCase: GetAllUsersUseCase) {
+  constructor(useCase: GetAllUsersUseCase, roleRepo: IRoleRepo) {
     super();
     this.useCase = useCase;
+    this.roleRepo = roleRepo;
   }
 
   protected async executeImpl(
@@ -25,21 +28,28 @@ export class GetAllUsersController extends BaseController {
 
       const { page, limit, q } = validation.data;
 
-      const result = await this.useCase.execute({
-        page,
-        limit,
-        searchTerm: q,
-      });
+      const [userResult, roles] = await Promise.all([
+        this.useCase.execute({ page, limit, searchTerm: q }),
+        this.roleRepo.findAll(),
+      ]);
 
-      const usersDTO = result.data.map((user) => UserMap.toPersistence(user));
+      const roleMap = new Map(roles.map((r) => [r.id, r.name]));
+
+      const usersDTO = userResult.data.map((user) => {
+        const dto = UserMap.toPersistence(user);
+        return {
+          ...dto,
+          role: roleMap.get(user.roleId),
+        };
+      });
 
       return this.ok(res, {
         data: usersDTO,
         meta: {
           page,
           limit,
-          total: result.total,
-          totalPages: result.totalPages,
+          total: userResult.total,
+          totalPages: userResult.totalPages,
         },
       });
     } catch (err: unknown) {
