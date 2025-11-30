@@ -3,6 +3,7 @@ import { Entity } from '@shared/core/Entity';
 interface BoardProps {
   title: string;
   description?: string;
+  language: string;
   ownerId: string;
   isPrivate: boolean;
   memberIds: string[];
@@ -15,6 +16,9 @@ export class Board extends Entity<BoardProps> {
   }
   get description(): string | undefined {
     return this.props.description;
+  }
+  get language(): string {
+    return this.props.language;
   }
   get ownerId(): string {
     return this.props.ownerId;
@@ -37,6 +41,7 @@ export class Board extends Entity<BoardProps> {
     props: {
       title: string;
       description?: string;
+      language?: string;
       ownerId: string;
       isPrivate?: boolean;
     },
@@ -49,6 +54,7 @@ export class Board extends Entity<BoardProps> {
     const board = new Board(
       {
         ...props,
+        language: props.language || 'US English Male',
         isPrivate: props.isPrivate ?? true,
         memberIds: [props.ownerId],
         createdAt: new Date(),
@@ -62,6 +68,7 @@ export class Board extends Entity<BoardProps> {
   public update(props: {
     title?: string;
     description?: string;
+    language?: string;
     isPrivate?: boolean;
   }): void {
     if (props.title) {
@@ -72,6 +79,10 @@ export class Board extends Entity<BoardProps> {
 
     if (props.description !== undefined) {
       this.props.description = props.description;
+    }
+
+    if (props.language !== undefined) {
+      this.props.language = props.language;
     }
 
     if (props.isPrivate !== undefined) {

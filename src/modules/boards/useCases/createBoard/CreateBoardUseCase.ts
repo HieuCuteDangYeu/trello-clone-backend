@@ -9,6 +9,7 @@ export class CreateBoardUseCase {
     const board = Board.create({
       title: props.title,
       description: props.description,
+      language: props.language,
       isPrivate: props.isPrivate,
       ownerId: userId,
     });
