@@ -1,3 +1,4 @@
+import { UserMap } from '@modules/users/mappers/userMap';
 import { Request, Response } from 'express';
 import { BaseController } from '../../../../shared/infra/http/BaseController';
 import { UpdateUserDTO } from './UpdateUserDTO';
@@ -25,8 +26,8 @@ export class UpdateUserController extends BaseController {
     };
 
     try {
-      await this.useCase.execute(dto);
-      return this.ok(res, { message: 'User updated successfully' });
+      const updatedUser = await this.useCase.execute(dto);
+      return this.ok(res, UserMap.toPersistence(updatedUser));
     } catch (err: unknown) {
       if (err instanceof Error) {
         if (err.message === 'User not found')
