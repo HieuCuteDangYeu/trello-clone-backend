@@ -1,7 +1,7 @@
 import { GetAllBoardsSystemController } from '@modules/boards/useCases/getAllBoardsSystem/GetAllBoardsSystemController';
 import { GetAllBoardsSystemUseCase } from '@modules/boards/useCases/getAllBoardsSystem/GetAllBoardsSystemUseCase';
-import { mongoCardRepo } from '@modules/cards/useCases';
-import { mongoListRepo } from '@modules/lists/useCases';
+import { MongoCardRepo } from '@modules/cards/repos/mongoCardRepo';
+import { MongoListRepo } from '@modules/lists/repos/mongoListRepo';
 import { MongoBoardRepo } from '../repos/mongoBoardRepo';
 import { CreateBoardController } from './createBoard/CreateBoardController';
 import { CreateBoardUseCase } from './createBoard/CreateBoardUseCase';
@@ -15,6 +15,8 @@ import { UpdateBoardController } from './updateBoard/UpdateBoardController';
 import { UpdateBoardUseCase } from './updateBoard/UpdateBoardUseCase';
 
 const mongoBoardRepo = new MongoBoardRepo();
+const mongoCardRepo = new MongoCardRepo();
+const mongoListRepo = new MongoListRepo();
 
 const createBoardUseCase = new CreateBoardUseCase(mongoBoardRepo);
 const createBoardController = new CreateBoardController(createBoardUseCase);

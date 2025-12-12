@@ -1,5 +1,5 @@
-import { mongoBoardRepo } from '@modules/boards/useCases';
-import { mongoCardRepo } from '@modules/cards/useCases';
+import { MongoBoardRepo } from '@modules/boards/repos/mongoBoardRepo';
+import { MongoCardRepo } from '@modules/cards/repos/mongoCardRepo';
 import { MongoListRepo } from '@modules/lists/repos/mongoListRepo';
 import { CreateListController } from '@modules/lists/useCases/createList/CreateListController';
 import { CreateListUseCase } from '@modules/lists/useCases/createList/CreateListUseCase';
@@ -11,6 +11,8 @@ import { UpdateListController } from '@modules/lists/useCases/updateList/UpdateL
 import { UpdateListUseCase } from '@modules/lists/useCases/updateList/UpdateListUseCase';
 
 export const mongoListRepo = new MongoListRepo();
+const mongoBoardRepo = new MongoBoardRepo();
+const mongoCardRepo = new MongoCardRepo();
 
 const createListUseCase = new CreateListUseCase(mongoListRepo, mongoBoardRepo);
 const createListController = new CreateListController(createListUseCase);
