@@ -6,4 +6,5 @@ export interface IListRepo {
   getMaxPosition(boardId: string): Promise<number>;
   getListById(listId: string): Promise<List | null>;
   delete(listId: string): Promise<void>;
+  deleteByBoardId(boardId: string): Promise<void>;
 }

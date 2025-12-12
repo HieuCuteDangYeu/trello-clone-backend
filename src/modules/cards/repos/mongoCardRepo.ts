@@ -33,4 +33,12 @@ export class MongoCardRepo implements ICardRepo {
   async delete(cardId: string): Promise<void> {
     await CardModel.findByIdAndDelete(cardId);
   }
+
+  async deleteByListId(listId: string): Promise<void> {
+    await CardModel.deleteMany({ listId });
+  }
+
+  async deleteByBoardId(boardId: string): Promise<void> {
+    await CardModel.deleteMany({ boardId });
+  }
 }

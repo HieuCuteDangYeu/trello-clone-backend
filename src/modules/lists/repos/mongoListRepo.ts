@@ -34,4 +34,8 @@ export class MongoListRepo implements IListRepo {
   async delete(listId: string): Promise<void> {
     await ListModel.findByIdAndDelete(listId);
   }
+
+  async deleteByBoardId(boardId: string): Promise<void> {
+    await ListModel.deleteMany({ boardId });
+  }
 }

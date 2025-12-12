@@ -1,5 +1,7 @@
 import { GetAllBoardsSystemController } from '@modules/boards/useCases/getAllBoardsSystem/GetAllBoardsSystemController';
 import { GetAllBoardsSystemUseCase } from '@modules/boards/useCases/getAllBoardsSystem/GetAllBoardsSystemUseCase';
+import { mongoCardRepo } from '@modules/cards/useCases';
+import { mongoListRepo } from '@modules/lists/useCases';
 import { MongoBoardRepo } from '../repos/mongoBoardRepo';
 import { CreateBoardController } from './createBoard/CreateBoardController';
 import { CreateBoardUseCase } from './createBoard/CreateBoardUseCase';
@@ -26,7 +28,11 @@ const getBoardByIdController = new GetBoardByIdController(getBoardByIdUseCase);
 const updateBoardUseCase = new UpdateBoardUseCase(mongoBoardRepo);
 const updateBoardController = new UpdateBoardController(updateBoardUseCase);
 
-const deleteBoardUseCase = new DeleteBoardUseCase(mongoBoardRepo);
+const deleteBoardUseCase = new DeleteBoardUseCase(
+  mongoBoardRepo,
+  mongoListRepo,
+  mongoCardRepo,
+);
 const deleteBoardController = new DeleteBoardController(deleteBoardUseCase);
 
 const getAllBoardsSystemUseCase = new GetAllBoardsSystemUseCase(mongoBoardRepo);

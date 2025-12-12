@@ -1,4 +1,5 @@
 import { mongoBoardRepo } from '@modules/boards/useCases';
+import { mongoCardRepo } from '@modules/cards/useCases';
 import { MongoListRepo } from '@modules/lists/repos/mongoListRepo';
 import { CreateListController } from '@modules/lists/useCases/createList/CreateListController';
 import { CreateListUseCase } from '@modules/lists/useCases/createList/CreateListUseCase';
@@ -25,7 +26,11 @@ const getListsByBoardController = new GetListsByBoardController(
 const updateListUseCase = new UpdateListUseCase(mongoListRepo, mongoBoardRepo);
 const updateListController = new UpdateListController(updateListUseCase);
 
-const deleteListUseCase = new DeleteListUseCase(mongoListRepo, mongoBoardRepo);
+const deleteListUseCase = new DeleteListUseCase(
+  mongoListRepo,
+  mongoBoardRepo,
+  mongoCardRepo,
+);
 const deleteListController = new DeleteListController(deleteListUseCase);
 
 export {
